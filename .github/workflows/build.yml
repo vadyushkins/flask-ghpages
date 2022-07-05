@@ -1,0 +1,36 @@
+name: Freeze and Deploy
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  documentation:
+    # Do not attempt to deploy website on forks
+    if: github.repository_owner == 'vadyushkins'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ 3.8 ]
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install packages
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements_lock.txt
+          python -m pip list
+
+      - name: Freeze
+        run: python freeze.py
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@4.3.4
+        with:
+          branch: gh-pages # The branch the action should deploy to.
+          folder: website/build # The folder the action should deploy.
