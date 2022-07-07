@@ -1,9 +1,8 @@
 import flask_frozen
 
-from website import create_app
+import website
 
-if __name__ == '__main__':
-    app = create_app()
-    freezer = flask_frozen.Freezer(app)
+if __name__ == "__main__":
+    freezer = flask_frozen.Freezer(website.app)
 
     freezer.freeze()

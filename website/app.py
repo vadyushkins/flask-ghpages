@@ -1,14 +1,10 @@
 import flask
 
-__all__ = ["create_app"]
+__all__ = ["app"]
 
+app = flask.Flask(__name__)
+app.config.from_pyfile('settings.py')
 
-def create_app():
-    app = flask.Flask(__name__)
-    app.config.from_pyfile('settings.py')
-
-    @app.route("/")
-    def index():
-        return "hello world"
-
-    return app
+@app.route("/")
+def index():
+    return flask.render_template('base.html', title='Hello World!')

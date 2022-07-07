@@ -1,1 +1,3 @@
 DEBUG = True
+
+FREEZER_DESTINATION = '../build'
